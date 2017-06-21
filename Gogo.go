@@ -44,7 +44,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error opening session to discord ", err)
 	}
-
+	
 	// Run until terminated
 	fmt.Println("Gogobot is now running. Press CTRL-C to exit")
 	sc := make(chan os.Signal, 1)
@@ -68,7 +68,9 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 	if mc.Author.ID == session.State.User.ID { return }
 
 	if strings.HasPrefix(mc.Content, "!gogo") {
-
+		channelID := mc.ChannelID
+		session.ChannelMessageSend(channelID, "You called me sir?")
+		return
 	}
 
 
