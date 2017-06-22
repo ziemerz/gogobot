@@ -1,19 +1,29 @@
 package commands
 
-type Func func() string
+import (
+	"github.com/ziemerz/gogobot/types"
+)
+
 type Random struct {
-	Subcommands map[string]Func
+	subCommands map[string]types.Func
 }
 
 func randomCat() string {
 	return "Random cat"
 }
 
-func NewRandom() *Random{
-	subcommands := map[string]Func{
-		"cat": randomCat,
-	}
+func randomGif() string {
+	return "Random gif"
+}
 
-	return &Random{subcommands}
+func (r *Random) SubCommands() map[string]types.Func {
+	return r.subCommands
+}
+
+func NewRandom() *Random{
+	subcmds := make(map[string]types.Func)
+	subcmds["cat"] = randomCat
+	subcmds["gif"] = randomGif
+	return &Random{subcmds}
 }
 

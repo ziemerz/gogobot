@@ -9,7 +9,6 @@ import (
 	"os/signal"
 	"syscall"
 	"strings"
-	cmd "github.com/ziemerz/gogobot/commands"
 )
 
 func init(){
@@ -18,6 +17,7 @@ func init(){
 }
 
 var token string
+var handler = NewCommandHandler()
 
 func main() {
 	// Check if token was provided
@@ -71,8 +71,9 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 	if strings.HasPrefix(mc.Content, "!gogo") {
 		channelID := mc.ChannelID
 		if strings.Contains(mc.Content, "cat"){
-			rnd := cmd.NewRandom()
-			session.ChannelMessageSend(channelID, rnd.Subcommands["cat"]())
+			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "cat"))
+		} else if strings.Contains(mc.Content, "gif") {
+			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "gif"))
 		} else {
 			session.ChannelMessageSend(channelID, "You called me sir?")
 		}

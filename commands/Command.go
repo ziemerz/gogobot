@@ -1,7 +1,11 @@
 package commands
 
-type Command struct {
-	command string
+import (
+	"github.com/ziemerz/gogobot/types"
+)
+
+type Command interface {
+	SubCommands() map[string] types.Func
 }
 
 
