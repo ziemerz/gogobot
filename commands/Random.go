@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"github.com/ziemerz/gogobot/types"
 	"github.com/ziemerz/gogobot/utility"
 )
 
@@ -9,7 +8,7 @@ var catBaseUrl string = "http://thecatapi.com/api/images/get?api_key=" + utility
 var dogBaseUrl string = "https://api.giphy.com/v1"
 
 type Random struct {
-	subCommands map[string]types.Func
+	availableCommands []string
 }
 
 type CatGif struct {
@@ -40,15 +39,16 @@ func randomGif() string {
 	return "Random gif"
 }
 
-func (r *Random) SubCommands() map[string]types.Func {
-	return r.subCommands
+func (r *Random) AvailableCommands() []string {
+	return r.availableCommands
 }
 
 func NewRandom() *Random{
-	subcmds := make(map[string]types.Func)
-	subcmds["cat"] = randomCat
-	subcmds["gif"] = randomGif
-	subcmds["dog"] = randomDog
+	subcmds := []string {"cat", "gif", "dog"}
 	return &Random{subcmds}
+}
+
+func (rand *Random) FireCommand(as []string) string {
+	return "Firing random command"
 }
 

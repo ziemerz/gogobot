@@ -70,19 +70,13 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 	message := strings.Split(mc.Content, " ")
 	if message[0] == "!gogo" {
 		channelID := mc.ChannelID
-
-		// session.ChannelMessageSend(channelID, handler.HandleCommandNew(message[1:]))
-		//
-		if message[1] == "cat" {
-			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "cat"))
-		} else if message[1] == "gif" {
-			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "gif"))
-		} else if message[1] == "dog" {
-			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "dog"))
-		} else {
-			session.ChannelMessageSend(channelID, "You called me sir?")
+		if len(message) > 1 {
+			session.ChannelMessageSend(channelID, handler.HandleCommand(message[1:]))
+			return
+		}  else {
+			session.ChannelMessageSend(channelID, "You called me sir? Type in `!gogo help` if you need any help")
+			return
 		}
-		return
 	}
 
 
