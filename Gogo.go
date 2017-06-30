@@ -22,7 +22,7 @@ var handler = NewCommandHandler()
 func main() {
 	// Check if token was provided
 	if token == "" {
-		fmt.Println("No token provided. Please run: airhorn -t <bot token>")
+		fmt.Println("No token provided. Please run: gogobot -t <bot token>")
 		return
 	}
 
@@ -67,13 +67,18 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 
 	//Ignore own messages
 	if mc.Author.ID == session.State.User.ID { return }
-
-	if strings.HasPrefix(mc.Content, "!gogo") {
+	message := strings.Split(mc.Content, " ")
+	if message[0] == "!gogo" {
 		channelID := mc.ChannelID
-		if strings.Contains(mc.Content, "cat"){
+
+		// session.ChannelMessageSend(channelID, handler.HandleCommandNew(message[1:]))
+		//
+		if message[1] == "cat" {
 			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "cat"))
-		} else if strings.Contains(mc.Content, "gif") {
+		} else if message[1] == "gif" {
 			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "gif"))
+		} else if message[1] == "dog" {
+			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "dog"))
 		} else {
 			session.ChannelMessageSend(channelID, "You called me sir?")
 		}
