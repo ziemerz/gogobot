@@ -10,7 +10,7 @@ type CommandHandler struct {
 
 func NewCommandHandler() CommandHandler{
 	cmdMap := commands.GetCmdMap(false)
-	return CommandHandler{cmdMap.GetCommands(false)}
+	return CommandHandler{commandsMap:cmdMap.GetCommands(false)}
 }
 
 func (cmdHandler *CommandHandler) HandleCommand(command []string) string {

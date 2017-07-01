@@ -26,7 +26,6 @@ func main() {
 		return
 	}
 
-	// New discordgo
 	discord, err := discordgo.New("Bot " + token)
 
 	if err != nil {
@@ -54,10 +53,7 @@ func main() {
 
 	// Clean up and close Discord connection
 	discord.Close()
-
-
 }
-
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
 	s.UpdateStatus(0, "!gogo")
@@ -78,6 +74,4 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 			return
 		}
 	}
-
-
 }

@@ -14,10 +14,6 @@ type Timer struct {
 	SubCommands []types.SubCmd `json:"subcommands"`
 }
 
-func setTimer() string{
-	return "timer"
-}
-
 func NewTimer() *Timer {
 	var tm TimerWrapper
 	utility.GetJsonFromFile("commands.json", &tm)

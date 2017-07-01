@@ -3,13 +3,13 @@
     "subcommands": [
       {
         "name": "cat",
-        "description": "This is the description for the cat command",
-        "help": "This is the help section of the cat command"
+        "description": "Fetches a random cat gif",
+        "example": "!gogo random cat"
       },
       {
         "name": "dog",
-        "description": "This is the description for the dog command",
-        "help": "This is the help section of the dog command"
+        "description": "Fetches a random dog gif",
+        "example": "!gogo random dog"
       }
     ]
   },
@@ -18,12 +18,12 @@
       {
         "name": "set",
         "description": "This is the description for the set command",
-        "help": "This is the help section of the set command"
+        "example": "!gogo timer set 01:12:34"
       },
       {
         "name": "in",
-        "description": "This is the description for the in command",
-        "help": "This is the help section of the in command"
+        "description": "This command alters the current timer to the specified time",
+        "example": "!gogo timer in 01:12:34"
       }
     ]
   }

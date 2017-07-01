@@ -21,12 +21,14 @@ func (h *Help) AllCommands() string{
 	var str string
 
 	for key, elem := range h.commands {
-		str += key + ": "
+		str += "```" +key + ": \n"
 		for _, val := range elem.AvailableCommands() {
-			str += "Name: " + val.Name
-			str += "Description: " + val.Description
-			str += "Help: " + val.Help
+			str += "\tSub command: " + val.Name + "\n"
+			str += "\t\tDescription: " + val.Description + "\n"
+			str += "\t\tExample: " + val.Example + "\n"
+			str += "------------\n"
 		}
+		str += "```"
 	}
 	return str
 }
@@ -35,8 +37,14 @@ func (h *Help) AvailableCommands() []types.SubCmd{
 	return h.SubCommands
 }
 
-func specificCommand(cmd string) string{
-	return cmd + " specific help"
+func (h *Help) specificCommand(cmd string) string{
+	var str string = "Help for " + cmd + "\n ```"
+	for _, command := range h.commands[cmd].AvailableCommands() {
+		str += "\tSub command: " + command.Name + "\n"
+		str += "\t\tDescription: " + command.Description + "\n"
+		str += "\t\tExample: " + command.Example + "\n"
+	}
+	return str + "```"
 }
 
 func (h *Help) FireCommand(command []string) string {
@@ -44,5 +52,5 @@ func (h *Help) FireCommand(command []string) string {
 	if len(command) == 1 {
 		return h.AllCommands()
 	}
-	return specificCommand(command[1])
+	return h.specificCommand(command[1])
 }
