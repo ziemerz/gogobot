@@ -1,29 +1,63 @@
 package commands
 
 import (
+	"github.com/ziemerz/gogobot/utility"
 	"github.com/ziemerz/gogobot/types"
 )
 
+var catBaseUrl string = "http://thecatapi.com/api/images/get?api_key=" + utility.GetKey("cat") + "&format=xml&type="
+var dogBaseUrl string = "https://api.giphy.com/v1"
+
+type RandomWrapper struct {
+	Random Random	`json:"random"`
+}
 type Random struct {
-	subCommands map[string]types.Func
+	SubCommands []types.SubCmd `json:"subcommands"`
+}
+
+type CatGif struct {
+	Url 	string	`xml:"data>images>image>url"`
+}
+
+type DogData struct {
+	Data DogGif `json:"data"`
+}
+
+type DogGif struct {
+	Url 	string	`json:"image_url"`
 }
 
 func randomCat() string {
-	return "Random cat"
+	catgif := new(CatGif);
+	utility.GetFromXML(catBaseUrl + "gif", &catgif)
+	return catgif.Url
 }
 
-func randomGif() string {
-	return "Random gif"
+func randomDog() string {
+	dogGif := new(DogData)
+	utility.GetJson(dogBaseUrl + "/gifs/random?api_key=" + utility.GetKey("dog") + "&tag=dog", dogGif)
+	return dogGif.Data.Url
 }
 
-func (r *Random) SubCommands() map[string]types.Func {
-	return r.subCommands
+func (r *Random) AvailableCommands() []types.SubCmd {
+	return r.SubCommands
 }
 
 func NewRandom() *Random{
-	subcmds := make(map[string]types.Func)
-	subcmds["cat"] = randomCat
-	subcmds["gif"] = randomGif
-	return &Random{subcmds}
+	var rw RandomWrapper
+	utility.GetJsonFromFile("commands.json", &rw)
+	return &rw.Random
+}
+
+func (rand *Random) FireCommand(as []string) string {
+	if len(as) >= 2 {
+		switch as[1] {
+		case "cat":
+			return randomCat()
+		case "dog":
+			return randomDog()
+		}
+	}
+	return "Firing random command"
 }
 

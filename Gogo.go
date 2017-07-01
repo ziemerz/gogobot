@@ -22,11 +22,10 @@ var handler = NewCommandHandler()
 func main() {
 	// Check if token was provided
 	if token == "" {
-		fmt.Println("No token provided. Please run: airhorn -t <bot token>")
+		fmt.Println("No token provided. Please run: gogobot -t <bot token>")
 		return
 	}
 
-	// New discordgo
 	discord, err := discordgo.New("Bot " + token)
 
 	if err != nil {
@@ -54,10 +53,7 @@ func main() {
 
 	// Clean up and close Discord connection
 	discord.Close()
-
-
 }
-
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
 	s.UpdateStatus(0, "!gogo")
@@ -67,18 +63,15 @@ func messageCreate(session *discordgo.Session, mc *discordgo.MessageCreate){
 
 	//Ignore own messages
 	if mc.Author.ID == session.State.User.ID { return }
-
-	if strings.HasPrefix(mc.Content, "!gogo") {
+	message := strings.Split(mc.Content, " ")
+	if message[0] == "!gogo" {
 		channelID := mc.ChannelID
-		if strings.Contains(mc.Content, "cat"){
-			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "cat"))
-		} else if strings.Contains(mc.Content, "gif") {
-			session.ChannelMessageSend(channelID, handler.HandleCommand("random", "gif"))
-		} else {
-			session.ChannelMessageSend(channelID, "You called me sir?")
+		if len(message) > 1 {
+			session.ChannelMessageSend(channelID, handler.HandleCommand(message[1:]))
+			return
+		}  else {
+			session.ChannelMessageSend(channelID, "You called me sir? Type in `!gogo help` if you need any help")
+			return
 		}
-		return
 	}
-
-
 }

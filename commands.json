@@ -1,0 +1,30 @@
+{
+  "random": {
+    "subcommands": [
+      {
+        "name": "cat",
+        "description": "Fetches a random cat gif",
+        "example": "!gogo random cat"
+      },
+      {
+        "name": "dog",
+        "description": "Fetches a random dog gif",
+        "example": "!gogo random dog"
+      }
+    ]
+  },
+  "timer": {
+    "subcommands": [
+      {
+        "name": "set",
+        "description": "This is the description for the set command",
+        "example": "!gogo timer set 01:12:34"
+      },
+      {
+        "name": "in",
+        "description": "This command alters the current timer to the specified time",
+        "example": "!gogo timer in 01:12:34"
+      }
+    ]
+  }
+}

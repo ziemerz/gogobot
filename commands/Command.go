@@ -1,11 +1,10 @@
 package commands
 
-import (
-	"github.com/ziemerz/gogobot/types"
-)
+import "github.com/ziemerz/gogobot/types"
 
 type Command interface {
-	SubCommands() map[string] types.Func
+	AvailableCommands() []types.SubCmd
+	FireCommand([]string) string
 }
 
 
