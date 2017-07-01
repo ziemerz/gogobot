@@ -2,13 +2,17 @@ package commands
 
 import (
 	"github.com/ziemerz/gogobot/utility"
+	"github.com/ziemerz/gogobot/types"
 )
 
 var catBaseUrl string = "http://thecatapi.com/api/images/get?api_key=" + utility.GetKey("cat") + "&format=xml&type="
 var dogBaseUrl string = "https://api.giphy.com/v1"
 
+type RandomWrapper struct {
+	Random Random	`json:"random"`
+}
 type Random struct {
-	availableCommands []string
+	SubCommands []types.SubCmd `json:"subcommands"`
 }
 
 type CatGif struct {
@@ -35,22 +39,24 @@ func randomDog() string {
 	return dogGif.Data.Url
 }
 
-func randomGif() string {
-	return "Random gif"
-}
-
-func (r *Random) AvailableCommands() []string {
-	return r.availableCommands
+func (r *Random) AvailableCommands() []types.SubCmd {
+	return r.SubCommands
 }
 
 func NewRandom() *Random{
-	subcmds := []string {"cat", "gif", "dog"}
-	return &Random{subcmds}
+	var rw RandomWrapper
+	utility.GetJsonFromFile("commands.json", &rw)
+	return &rw.Random
 }
 
 func (rand *Random) FireCommand(as []string) string {
 	if len(as) >= 2 {
-		return "Firing subcommand of random"
+		switch as[1] {
+		case "cat":
+			return randomCat()
+		case "dog":
+			return randomDog()
+		}
 	}
 	return "Firing random command"
 }

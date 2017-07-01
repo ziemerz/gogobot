@@ -1,7 +1,9 @@
 package commands
 
+import "github.com/ziemerz/gogobot/types"
+
 type Command interface {
-	AvailableCommands() []string
+	AvailableCommands() []types.SubCmd
 	FireCommand([]string) string
 }
 

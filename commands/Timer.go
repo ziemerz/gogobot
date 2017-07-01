@@ -1,21 +1,33 @@
 package commands
 
-type Timer struct {
-	availableCommands []string
+import (
+	"github.com/ziemerz/gogobot/utility"
+	"github.com/ziemerz/gogobot/types"
+)
+
+
+type TimerWrapper struct {
+	Timer Timer	`json:"timer"`
 }
+
+type Timer struct {
+	SubCommands []types.SubCmd `json:"subcommands"`
+}
+
 func setTimer() string{
 	return "timer"
 }
 
 func NewTimer() *Timer {
-	subcmds := []string {"set", "new", "in"}
-	return &Timer{subcmds}
+	var tm TimerWrapper
+	utility.GetJsonFromFile("commands.json", &tm)
+	return &tm.Timer
 }
 
-func (t *Timer) AvailableCommands() []string {
-	return t.availableCommands
+func (t *Timer) AvailableCommands() []types.SubCmd {
+	return t.SubCommands
 }
 
 func (t *Timer) FireCommand(as []string) string {
-	return "Firing timer command"
+	return "Sup timer?"
 }

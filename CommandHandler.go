@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/ziemerz/gogobot/commands"
-	"github.com/ziemerz/gogobot/types"
 )
 
 type CommandHandler struct {
@@ -10,16 +9,19 @@ type CommandHandler struct {
 }
 
 func NewCommandHandler() CommandHandler{
-	cmdMap := types.GetCmdMap()
-	return CommandHandler{cmdMap.GetCommands()}
+	cmdMap := commands.GetCmdMap(false)
+	return CommandHandler{cmdMap.GetCommands(false)}
 }
 
 func (cmdHandler *CommandHandler) HandleCommand(command []string) string {
 	if len(command) >= 1 {
-		if command[0] == "random" {
+		switch command[0] {
+		case "random":
 			return cmdHandler.commandsMap["random"].FireCommand(command)
-		} else if command[0] == "timer" {
+		case "timer":
 			return cmdHandler.commandsMap["timer"].FireCommand(command)
+		case "help":
+			return cmdHandler.commandsMap["help"].FireCommand(command)
 		}
 	}
 	return "Command not found"
