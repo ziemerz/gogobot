@@ -49,6 +49,9 @@ func NewRandom() *Random{
 }
 
 func (rand *Random) FireCommand(as []string) string {
+	if len(as) >= 2 {
+		return "Firing subcommand of random"
+	}
 	return "Firing random command"
 }
 
